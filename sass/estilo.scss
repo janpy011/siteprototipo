@@ -1,0 +1,795 @@
+// Variáveis de Cores
+$azul-principal: #007bff;
+$azul-secundario: #0056b3;
+$branco: #ffffff;
+$preto: #000000;
+$cinza-claro: #f8f9fa;
+$cinza-escuro: #343a40;
+$cinza-medio: #6c757d;
+
+// Mixin para Media Queries
+@mixin breakpoint($point) {
+    @if $point ==desktop {
+        @media (min-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $point ==tablet {
+        @media (min-width: 768px) and (max-width: 1023px) {
+            @content;
+        }
+    }
+
+    @else if $point ==mobile {
+        @media (max-width: 767px) {
+            @content;
+        }
+    }
+}
+
+// Reset básico
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: $cinza-escuro;
+    background-color: $branco;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+
+    @include breakpoint(mobile) {
+        padding: 0 10px;
+    }
+}
+
+// Header
+.header {
+    background-color: $branco;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo img {
+        height: 50px;
+        display: block;
+    }
+
+    .nav {
+        @include breakpoint(mobile) {
+            display: none;
+        }
+    }
+
+    .nav-list {
+        list-style: none;
+        display: flex;
+
+        li {
+            margin-left: 30px;
+
+            a {
+                text-decoration: none;
+                color: $cinza-escuro;
+                font-weight: bold;
+                transition: color 0.3s ease, transform 0.2s ease;
+                position: relative;
+
+                &:hover {
+                    color: $azul-principal;
+                    transform: translateY(-2px);
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        bottom: -5px;
+                        width: 100%;
+                        height: 2px;
+                        background-color: $azul-principal;
+                        transform: scaleX(0);
+                        transform-origin: bottom right;
+                        transition: transform 0.3s ease-out;
+                    }
+                }
+
+                &:hover::after {
+                    transform: scaleX(1);
+                    transform-origin: bottom left;
+                }
+            }
+        }
+    }
+
+    .hamburger-menu {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        // Adjust z-index here to ensure it's above the mobile nav when active
+        position: relative; // Needs a position value for z-index to work
+        z-index: 1001; // Higher than mobile-nav's 1000
+
+        @include breakpoint(mobile) {
+            display: flex;
+        }
+
+        span {
+            height: 3px;
+            width: 25px;
+            background-color: $azul-principal;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        &.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        &.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        &.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    }
+}
+
+// Mobile Navigation
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; // Lower than hamburger-menu, higher than standard content
+    cursor: pointer;
+
+    &.active {
+        display: block;
+    }
+}
+
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100%;
+    background-color: $branco;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    z-index: 1000; // Higher than mobile-nav-overlay, lower than hamburger-menu active state
+    padding-top: 80px;
+
+    &.active {
+        right: 0;
+    }
+
+    .mobile-nav-list {
+        list-style: none;
+        padding: 0 20px;
+
+        li {
+            border-bottom: 1px solid $cinza-claro;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            a {
+                display: block;
+                padding: 15px 0;
+                text-decoration: none;
+                color: $cinza-escuro;
+                font-weight: bold;
+                transition: background-color 0.3s ease, color 0.3s ease;
+
+                &:hover {
+                    background-color: $cinza-claro;
+                    color: $azul-principal;
+                }
+            }
+        }
+    }
+}
+
+// Hero Section
+.hero-section {
+    background: url(../img/fundo.PNG) no-repeat center center/cover;
+    background-attachment: fixed;
+    color: $branco;
+    text-align: center;
+    padding: 150px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+
+    h1 {
+        font-size: 3.8em;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+        @include breakpoint(mobile) {
+            font-size: 2.5em;
+        }
+    }
+
+    p {
+        font-size: 1.4em;
+        margin-bottom: 40px;
+        max-width: 800px;
+        opacity: 0.9;
+
+        @include breakpoint(mobile) {
+            font-size: 1.1em;
+        }
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: $azul-principal;
+        color: $branco;
+        padding: 18px 35px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        border: none;
+
+        &:hover {
+            background-color: $azul-secundario;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba($azul-principal, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba($azul-principal, 0.2);
+        }
+    }
+}
+
+// Seções Gerais
+section {
+    padding: 1em;
+    text-align: center;
+    background-color: $branco;
+
+    @include breakpoint(mobile) {
+        padding: 60px 0;
+    }
+
+    h2 {
+        font-size: 3em;
+        margin-bottom: 50px;
+        color: $azul-principal;
+        position: relative;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: $azul-principal;
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        @include breakpoint(mobile) {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+    }
+
+    p {
+        font-size: 1.1em;
+        line-height: 1.8;
+        max-width: 900px;
+        margin: 0 auto 30px;
+    }
+}
+
+// Seção "Sobre Nós
+.about-section {
+    .container {
+        p {
+            text-align: left;
+        }
+    }
+
+    .content-wrapper {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 40px;
+        margin-top: 50px;
+
+        @include breakpoint(mobile) {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .text-content {
+            flex: 1;
+            padding-right: 20px;
+
+            @include breakpoint(mobile) {
+                padding-right: 0;
+            }
+        }
+
+        .image-content {
+            flex: 1;
+
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 10px;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+}
+
+// Iframe de Localização
+.location-section {
+    background-color: $cinza-claro;
+    padding-bottom: 0;
+
+    .map-container {
+        border: none;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 50px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+        iframe {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}
+
+// Seção de Contato - Formulário
+.contact-section {
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        margin: 50px auto 0;
+        text-align: left;
+        gap: 20px;
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: $cinza-escuro;
+            font-size: 1.05em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid $cinza-medio;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+            &:focus {
+                border-color: $azul-principal;
+                box-shadow: 0 0 0 3px rgba($azul-principal, 0.25);
+                outline: none;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-button {
+            background-color: $azul-principal;
+            border: none;
+            color: $branco;
+            box-shadow: 2px 2px 2px #000000;
+            padding: 1em;
+            text-align: center;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: $azul-secundario;
+            }
+
+        }
+    }
+
+    // social
+    .social-media-links {
+        margin-top: 50px;
+        text-align: center;
+
+        p {
+            font-size: 1.2em;
+            color: $cinza-escuro;
+            margin-bottom: 30px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 0 15px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-5px) scale(1.1);
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+                }
+            }
+        }
+    }
+}
+
+// Seção de Produtos - Carrossel
+.products-section {
+
+    p {
+        text-align: left;
+    }
+
+    .carousel-container {
+        position: relative;
+        max-width: 800px;
+        margin: 50px auto;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+        @include breakpoint(mobile) {
+            margin-top: 30px;
+        }
+    }
+
+    .carousel-slide {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+
+        &.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+        }
+    }
+}
+
+.sustainability-section {
+    background-image: url(../img/sustentabilidade.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+
+    p {
+        color: $branco;
+        text-align: left;
+    }
+}
+
+.tech-section {
+    p {
+        text-align: left;
+    }
+}
+
+// Seção Ouvidoria / Chatbot
+.ombudsman-section {
+    background-color: $branco;
+    padding-bottom: 100px;
+
+    #chatbot-container {
+        background-color: $cinza-claro;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 50px auto 0;
+        padding: 30px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        min-height: 400px;
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: $cinza-escuro;
+            text-align: center;
+        }
+    }
+
+    .chatbot-interface {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+
+    .chatbot-messages {
+        flex-grow: 1;
+        background-color: $branco;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        overflow-y: auto;
+        max-height: 300px;
+        border: 1px solid $cinza-claro;
+    }
+
+    .chatbot-message {
+        padding: 10px 15px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        max-width: 80%;
+
+        &.user {
+            background-color: $azul-principal;
+            color: $branco;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        &.bot {
+            background-color: $cinza-medio;
+            color: $branco;
+            align-self: flex-start;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+    }
+
+    #chatbot-input {
+        width: calc(100% - 70px);
+        padding: 12px 15px;
+        border: 1px solid $cinza-medio;
+        border-radius: 25px;
+        font-size: 1em;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        margin-right: 10px;
+
+        &:focus {
+            border-color: $azul-principal;
+            box-shadow: 0 0 0 3px rgba($azul-principal, 0.25);
+            outline: none;
+        }
+    }
+
+    .btn-chatbot {
+        background-color: $azul-principal;
+        color: $branco;
+        padding: 1em;
+        border-radius: 5px;
+        border: none;
+        width: 100px;
+        margin: 30px auto;
+        box-shadow: 2px 2px 2px #000000;
+
+        &:hover {
+            transform: scale(1.1);
+            transition: .4s;
+        }
+
+        &:active {
+            background-color: $azul-secundario;
+        }
+    }
+
+    .chatbot-input-area {
+        display: flex;
+        align-items: center;
+    }
+}
+
+
+// Footer
+.footer {
+    background-color: $preto;
+    color: $branco;
+    padding: 60px 0 30px;
+    text-align: center;
+
+    .footer-content {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+
+        @include breakpoint(mobile) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .footer-info,
+    .footer-social,
+    .footer-links {
+        flex: 1;
+        min-width: 250px;
+        margin: 20px;
+        text-align: left;
+
+        @include breakpoint(mobile) {
+            text-align: center;
+            margin: 15px;
+        }
+
+        h3 {
+            margin-bottom: 18px;
+            color: $azul-principal;
+            font-size: 1.3em;
+
+            @include breakpoint(mobile) {
+                margin-bottom: 10px;
+            }
+        }
+
+        p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            color: rgba($branco, 0.8);
+        }
+
+        ul {
+            list-style: none;
+
+            li {
+                margin-bottom: 8px;
+
+                a {
+                    color: rgba($branco, 0.8);
+                    text-decoration: none;
+                    font-size: 0.95em;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: $azul-principal;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-social a {
+        display: inline-block;
+        margin: 0 12px;
+
+        img {
+            width: 35px;
+            height: 35px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+
+            &:hover {
+                transform: scale(1.2) rotate(5deg);
+                filter: brightness(1.5);
+            }
+        }
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        padding-top: 25px;
+        font-size: 0.9em;
+        color: rgba($branco, 0.7);
+
+        a {
+            color: rgba($branco, 0.7);
+            text-decoration: none;
+            margin: 0 10px;
+
+            &:hover {
+                color: $azul-principal;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+/*Efeitos de Hover para elementos gerais*/
+a:hover,
+button:hover,
+.btn:hover {
+    cursor: pointer;
+}
+
+// Estilo de cards interativos
+.interactive-card {
+    background-color: $branco;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 30px;
+    text-align: center;
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+}
+
+//data animar
+[data-animar] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+}
+
+[data-animar="c"] {
+    transform: translateY(40px);
+}
+
+[data-animar="b"] {
+    transform: translateY(-40px);
+}
+
+[data-animar="e"] {
+    transform: translateX(-40px);
+}
+
+[data-animar="d"] {
+    transform: translateX(40px);
+}
+
+[data-animar].ativo {
+    opacity: 1;
+    transform: translate(0);
+}
