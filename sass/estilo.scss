@@ -35,6 +35,10 @@ $cinza-medio: #6c757d;
     box-sizing: border-box;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
@@ -67,9 +71,14 @@ body {
         align-items: center;
     }
 
-    .logo img {
-        height: 50px;
-        display: block;
+    .logo {
+
+        margin-left: 20px;
+
+        img {
+            height: 50px;
+            display: block;
+        }
     }
 
     .nav {
@@ -123,9 +132,9 @@ body {
         flex-direction: column;
         cursor: pointer;
         padding: 5px;
-        // Adjust z-index here to ensure it's above the mobile nav when active
-        position: relative; // Needs a position value for z-index to work
-        z-index: 1001; // Higher than mobile-nav's 1000
+        position: relative;
+        z-index: 1001;
+        margin-right: 20px;
 
         @include breakpoint(mobile) {
             display: flex;
@@ -167,7 +176,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999; // Lower than hamburger-menu, higher than standard content
+    z-index: 999;
     cursor: pointer;
 
     &.active {
@@ -184,7 +193,7 @@ body {
     background-color: $branco;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
     transition: right 0.3s ease-in-out;
-    z-index: 1000; // Higher than mobile-nav-overlay, lower than hamburger-menu active state
+    z-index: 1000;
     padding-top: 80px;
 
     &.active {
@@ -236,7 +245,7 @@ body {
         font-size: 3.8em;
         margin-bottom: 25px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-
+        
         @include breakpoint(mobile) {
             font-size: 2.5em;
         }
@@ -792,4 +801,13 @@ button:hover,
 [data-animar].ativo {
     opacity: 1;
     transform: translate(0);
+}
+
+//RESPONSIVIDADE
+@media screen and (max-width: 768px) {
+
+
+    section {
+        padding: 2.5em;
+    }
 }

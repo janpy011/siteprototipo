@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Arial", sans-serif;
   line-height: 1.6;
@@ -34,6 +38,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.header .logo {
+  margin-left: 20px;
 }
 .header .logo img {
   height: 50px;
@@ -85,6 +92,7 @@ body {
   padding: 5px;
   position: relative;
   z-index: 1001;
+  margin-right: 20px;
 }
 @media (max-width: 767px) {
   .header .hamburger-menu {
@@ -685,4 +693,10 @@ button:hover,
 [data-animar].ativo {
   opacity: 1;
   transform: translate(0);
+}
+
+@media screen and (max-width: 768px) {
+  section {
+    padding: 2.5em;
+  }
 }/*# sourceMappingURL=estilo.css.map */
